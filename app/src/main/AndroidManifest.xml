@@ -1,17 +1,56 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-
     package="mars_williams.tweetastic">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <meta-data
+        android:name="DATABASE"
+        android:value="tweetasticdatabase.db" />
+    <meta-data
+        android:name="VERSION"
+        android:value="1" />
+    <meta-data
+        android:name="QUERY_LOG"
+        android:value="true" />
+    <meta-data
+        android:name="DOMAIN_PACKAGE_NAME"
+        android:value="mars_williams.tweetastic.models" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_sweet_tweeter"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:name="com.orm.SugarApp"
+        android:icon="@drawable/ic_sweet_tweeter"
         tools:replace="android:icon">
+        <activity
+            android:name=".activities.LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="@string/intent_host"
+                    android:scheme="@string/intent_scheme" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.TimelineActivity" />
+        <activity android:name=".activities.TweetDetailsActivity" />
+        <activity android:name=".activities.ReplyActivity" />
     </application>
 
 </manifest>

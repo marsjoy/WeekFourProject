@@ -1,3 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Tweetastic</string>
+    <string name="login_label">Log in</string>
+    <string name="intent_scheme">Sweet Tweets Oauth</string>
+    <string name="intent_host">Sweet Tweets Rest</string>
+    <string name="formatted_user_screen_name">\@%s</string>
+    <string name="snackbar_text_internet_lost">Disconnected from Internet</string>
+    <string name="snackbar_text_internet_available">Connected to Internet</string>
+    <string name="tweet">Tweet</string>
+    <string name="compose_hint">Tweet something sweet</string>
+    <string name="character_count">140</string>
+    <string name="characters_remaining">characters remaining</string>
+    <string name="close">X</string>
+    <string name="details">Tweet Details</string>
+    <string name="max_lines">1</string>
+    <string name="max_lines_expanded">2</string>
+    <string name="min_lines">1</string>
+    <string name="welcome">Welcome to Twitter</string>
+    <string name="welcome_detail">See what\'s happening in the world right now.</string>
+    <string name="close_confirmation">You haven\'t posted your tweet. Are you sure you want to return to your home timeline?</string>
+    <string name="twitter_client">TwitterClient</string>
+    <string name="unable_to_fetch_tweets">Unable to fetch tweets</string>
+    <string name="at_time">at time</string>
+    <string name="num">#</string>
+    <string name="retweets">Retweets</string>
+    <string name="tweet_content">tweet content</string>
+    <string name="tweeter">\@tweeter</string>
+    <string name="likes">Likes</string>
+    <string name="sample_tweeter">SampleTweeter</string>
+    <string name="photo">photo</string>
+    <string name="animated_gif">animated_gif</string>
+    <string name="unable_to_retweet">Unable to retweet</string>
+    <string name="unable_to_favorite_tweet">Unable to favorite tweet</string>
+    <string name="unable_to_unretweet">Unable to unretweet</string>
+    <string name="unable_to_unfavorite_tweet">Unable to unfavorite tweet</string>
+    <string name="favorites">Favorites</string>
+    <string name="count">%d</string>
+    <string name="tweet_your_reply">Tweet your reply</string>
+    <string name="reply">Reply</string>
+    <string name="replying_to">Replying to @%s</string>
+    <string name="reply_text" formatted="false">\@%s %s</string>
+    <string name="failed_to_submit_reply">Failed to submit reply</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="home">Home</string>
+    <string name="mentions">Mentions</string>
 </resources>

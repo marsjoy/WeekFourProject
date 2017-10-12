@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rvTweets"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/details_margin">
+
+    <ImageButton
+        android:id="@+id/ivProfileImage"
+        android:layout_width="@dimen/tweet_profile_image_width"
+        android:layout_height="@dimen/tweet_profile_image_height"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        app:srcCompat="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/details_margin"
+        android:layout_marginEnd="@dimen/details_margin"
+        android:layout_toEndOf="@+id/ivProfileImage"
+        android:minLines="@string/min_lines"
+        android:maxLines="@string/max_lines"
+        android:ellipsize="end"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:text="@string/sample_tweeter"/>
+
+    <TextView
+        android:id="@+id/tvScreenName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tweeter"
+        android:layout_toEndOf="@+id/tvUserName"
+        android:minLines="@string/min_lines"
+        android:maxLines="@string/max_lines"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:id="@+id/tvCreatedAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/at_time"
+        android:layout_alignStart="@id/tvUserName"
+        android:layout_below="@+id/tvUserName"/>
+
+    <TextView
+        android:id="@+id/tvBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/details_margin"
+        android:layout_marginBottom="@dimen/details_margin"
+        android:layout_below="@+id/tvCreatedAt"
+        android:layout_marginStart="@dimen/details_margin"
+        android:layout_toEndOf="@+id/ivProfileImage"
+        android:minLines="@string/min_lines"
+        android:maxLines="@string/max_lines_expanded"
+        android:ellipsize="end"
+        android:text="@string/tweet_content"
+        android:autoLink="all"
+        android:linksClickable="true" />
+
+    <ImageView
+        android:id="@+id/ivMediaImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvBody" />
+
+    <LinearLayout
+        android:id="@+id/llButtonRow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivMediaImage"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/ibMessage"
+            android:layout_width="@dimen/tweet_button_width"
+            android:layout_height="@dimen/tweet_button_height"
+            android:layout_marginStart="@dimen/tweet_button_margin"
+            android:layout_marginEnd="@dimen/tweet_button_margin"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/ic_no_comment"/>
+
+        <TextView
+            android:id="@+id/tvReplyCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"/>
+
+        <ImageButton
+            android:id="@+id/ibRetweet"
+            android:layout_width="@dimen/tweet_button_width"
+            android:layout_height="@dimen/tweet_button_height"
+            android:layout_marginStart="@dimen/tweet_button_margin"
+            android:layout_marginEnd="@dimen/tweet_button_margin"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/ic_unretweet"/>
+
+        <TextView
+            android:id="@+id/tvRetweetCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"/>
+
+        <ImageButton
+            android:id="@+id/ibFavorite"
+            android:layout_width="@dimen/tweet_button_width"
+            android:layout_height="@dimen/tweet_button_height"
+            android:layout_marginStart="@dimen/tweet_button_margin"
+            android:layout_marginEnd="@dimen/tweet_button_margin"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/ic_unfavorite"/>
+
+        <TextView
+            android:id="@+id/tvFavoriteCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"/>
+
+        <ImageButton
+            android:id="@+id/ibDirectMessage"
+            android:layout_width="@dimen/tweet_button_width"
+            android:layout_height="@dimen/tweet_button_height"
+            android:layout_marginStart="@dimen/tweet_button_margin"
+            android:layout_marginEnd="@dimen/tweet_button_margin"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/ic_no_direct_message"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/vDivider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_below="@+id/llButtonRow"
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="@dimen/details_margin"
+        android:layout_marginStart="@dimen/details_margin"
+        android:layout_marginEnd="@dimen/details_margin"/>
+
+</RelativeLayout>
