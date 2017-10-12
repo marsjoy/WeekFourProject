@@ -44,17 +44,19 @@ public class TwitterClient extends OAuthBaseClient {
                         context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL));
     }
 
-    public void getHomeTimeline(AsyncHttpResponseHandler handler) {
+    public void getHomeTimelinePage(long max_id, AsyncHttpResponseHandler handler) {
         String apiUrl = getApiUrl("statuses/home_timeline.json");
-        // Can specify query string params directly or through RequestParams.
         RequestParams params = new RequestParams();
         params.put("count", "25");
         params.put("since_id", 1);
+        if (max_id > 1) { // for consecutive calls to this endpoint
+            params.put("max_id", max_id); // would we want this to update based on the last id we got?
+        }
         client.get(apiUrl, params, handler);
     }
 
-    public void getHomeTimelinePage(long max_id, AsyncHttpResponseHandler handler) {
-        String apiUrl = getApiUrl("statuses/home_timeline.json");
+    public void getMentionsTimelinePage(long max_id, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("statuses/mentions_timeline.json");
         RequestParams params = new RequestParams();
         params.put("count", "25");
         params.put("since_id", 1);
