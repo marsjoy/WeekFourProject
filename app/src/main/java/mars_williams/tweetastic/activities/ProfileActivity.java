@@ -27,7 +27,7 @@ import mars_williams.tweetastic.fragments.TweetsListFragment;
 import mars_williams.tweetastic.models.Tweet;
 
 
-public class TimelineActivity extends AppCompatActivity implements TweetsListFragment.TweetSelectedListener, ComposeTweetDialogFragment.OnTweetComposedListener {
+public class ProfileActivity extends AppCompatActivity implements TweetsListFragment.TweetSelectedListener, ComposeTweetDialogFragment.OnTweetComposedListener {
 
     public static final String TWEET_POSITION = "tweet_position";
     public static final int REQUEST_CODE_COMPOSE = 20;
@@ -140,3 +140,4 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
         }
     }
 }
+
