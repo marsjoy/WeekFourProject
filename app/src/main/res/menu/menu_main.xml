@@ -5,6 +5,5 @@
         android:id="@+id/miProfile"
         android:icon="@drawable/ic_profile_image_menu"
         android:title="@string/profile"
-        app:showAsAction="ifRoom">
-    </item>
+        app:showAsAction="ifRoom"></item>
 </menu>

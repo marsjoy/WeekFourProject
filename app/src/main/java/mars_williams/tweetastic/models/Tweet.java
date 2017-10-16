@@ -17,6 +17,7 @@ import mars_williams.tweetastic.helpers.Utils;
 @Parcel(analyze = Tweet.class)
 public class Tweet extends SugarRecord<Tweet> {
 
+    public Media media;
     // List out attributes
     String body;
     long tweetId; // Database ID for the tweet
@@ -26,7 +27,6 @@ public class Tweet extends SugarRecord<Tweet> {
     boolean favorited;
     int retweetCount;
     boolean retweeted;
-    public Media media;
 
 
     public Tweet() {
@@ -60,7 +60,7 @@ public class Tweet extends SugarRecord<Tweet> {
         }
         try {
             this.media = new Media(jsonObject.getJSONObject("entities").getJSONArray("media"));
-        } catch(JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
             this.media = new Media();
         }
@@ -97,7 +97,7 @@ public class Tweet extends SugarRecord<Tweet> {
         }
         try {
             tweet.media = new Media(jsonObject.getJSONObject("entities").getJSONArray("media"));
-        } catch(JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
             tweet.media = new Media();
         }
@@ -199,11 +199,11 @@ public class Tweet extends SugarRecord<Tweet> {
         this.favoriteCount = favoriteCount;
     }
 
-    public Media getMedia() { 
-        return media; 
+    public Media getMedia() {
+        return media;
     }
 
     public void setMedia(Media media) {
-        this.media = media; 
+        this.media = media;
     }
 }

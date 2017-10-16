@@ -33,18 +33,18 @@
             android:id="@+id/tvReplyingTo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/etNewTweet"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/tweeter"
-            android:layout_alignStart="@+id/etNewTweet"
+            android:maxLines="@string/max_lines"
             android:minLines="@string/min_lines"
-            android:maxLines="@string/max_lines"/>
+            android:text="@string/tweeter" />
 
         <ImageView
             android:id="@+id/ivReplyProfileImage"
-            android:layout_below="@+id/tvReplyingTo"
             android:layout_width="@dimen/tweet_profile_image_width"
             android:layout_height="@dimen/tweet_profile_image_height"
+            android:layout_below="@+id/tvReplyingTo"
             android:layout_marginStart="@dimen/activity_horizontal_margin" />
 
         <EditText

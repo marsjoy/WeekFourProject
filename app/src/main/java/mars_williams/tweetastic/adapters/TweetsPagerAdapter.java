@@ -21,7 +21,7 @@ public class TweetsPagerAdapter extends FragmentStatePagerAdapter {
     public TweetsPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
-        tabTitles = new String[] {
+        tabTitles = new String[]{
                 this.context.getString(R.string.home),
                 this.context.getString(R.string.mentions)};
     }
@@ -35,7 +35,7 @@ public class TweetsPagerAdapter extends FragmentStatePagerAdapter {
     // Return the fragment to use depending on the position
     @Override
     public Fragment getItem(int position) {
-        if(position == 0) {
+        if (position == 0) {
             return new HomeTimelineFragment();
         } else if (position == 1) {
             return new MentionsTimelineFragment();
@@ -52,7 +52,7 @@ public class TweetsPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        TweetsListFragment fragment =  (TweetsListFragment) super.instantiateItem(container, position);
+        TweetsListFragment fragment = (TweetsListFragment) super.instantiateItem(container, position);
         registeredFragments.put(position, fragment);
         return fragment;
     }

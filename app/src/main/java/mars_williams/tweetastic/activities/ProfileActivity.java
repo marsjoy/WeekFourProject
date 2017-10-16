@@ -38,10 +38,14 @@ import static mars_williams.tweetastic.activities.TimelineActivity.TWEET_POSITIO
 
 public class ProfileActivity extends AppCompatActivity implements TweetsListFragment.TweetSelectedListener {
 
-    @BindView(R.id.tvName) TextView tvName;
-    @BindView(R.id.tvTagline) TextView tvTagline;
-    @BindView(R.id.tvFollowers) TextView tvFollowers;
-    @BindView(R.id.tvFollowing) TextView tvFollowing;
+    @BindView(R.id.tvUserName)
+    TextView tvName;
+    @BindView(R.id.tvTagline)
+    TextView tvTagline;
+    @BindView(R.id.tvFollowers)
+    TextView tvFollowers;
+    @BindView(R.id.tvFollowing)
+    TextView tvFollowing;
     @BindView(R.id.ivProfileImage)
     ImageView ivProfileImage;
 
@@ -59,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
 
         String screenName = getIntent().getStringExtra("screen_name");
         tweet = Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
-        if(tweet != null) {
+        if (tweet != null) {
             screenName = tweet.getUser().getScreenName();
         }
 
@@ -75,7 +79,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
         ft.commit();
 
         // If the tweet is valid, get another user's info
-        if(tweet != null) {
+        if (tweet != null) {
             populateUserHeadline(tweet.getUser());
             // If the tweet is invalid, get this user's info
         } else {
@@ -109,6 +113,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
         Glide.with(this)
                 .load(user.getProfileImageUrl())
                 .bitmapTransform(new RoundedCornersTransformation(this, 25, 0))
+                .placeholder(R.drawable.ic_profile_image_placeholder)
                 .into(ivProfileImage);
     }
 
@@ -149,7 +154,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
 
     @Override
     public void onTweetSelected(Tweet tweet, int position) {
-        if(position != RecyclerView.NO_POSITION) {
+        if (position != RecyclerView.NO_POSITION) {
             // Create an intent to the TweetDetailsActivity with tweet and position
             Intent i = new Intent(this, TweetDetailsActivity.class);
             i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
@@ -162,7 +167,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // If returning successfully from DetailsActivity
-        if(resultCode == RESULT_OK && requestCode == REQUEST_CODE_DETAILS) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_DETAILS) {
             // Deserialize the tweet and position
             Tweet newTweet = Parcels.unwrap(data.getParcelableExtra(Tweet.class.getSimpleName()));
             int position = data.getIntExtra(TWEET_POSITION, 0);

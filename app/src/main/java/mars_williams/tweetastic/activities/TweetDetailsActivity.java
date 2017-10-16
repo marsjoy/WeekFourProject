@@ -104,6 +104,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(tweet.getUser().getProfileImageUrl())
                 .bitmapTransform(new RoundedCornersTransformation(this, 25, 0))
+                .placeholder(R.drawable.ic_profile_image_placeholder)
                 .into(ivProfileImage);
 
         // Load the media image

@@ -40,17 +40,17 @@ import mars_williams.tweetastic.networking.TwitterClient;
 
 public class ReplyActivity extends AppCompatActivity {
 
+    final private int maxLength = 140;
     @BindView(R.id.tvReplyingTo)
     TextView tvReplyingTo;
-    @BindView(R.id.tvCharacterCount) TextView tvCharacterCount;
+    @BindView(R.id.tvCharacterCount)
+    TextView tvCharacterCount;
     @BindView(R.id.etNewTweet)
     EditText etNewTweet;
     @BindView(R.id.btnCloseReply)
     Button btnCloseReply;
-
     private TwitterClient client;
     private Tweet tweet;
-    final private int maxLength = 140;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +85,8 @@ public class ReplyActivity extends AppCompatActivity {
     public void initCharacterCount() {
         etNewTweet.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -93,7 +94,8 @@ public class ReplyActivity extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
         });
     }
 

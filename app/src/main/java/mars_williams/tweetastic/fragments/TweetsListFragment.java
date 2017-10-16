@@ -27,20 +27,14 @@ import mars_williams.tweetastic.recievers.InternetCheckReceiver;
 
 public class TweetsListFragment extends Fragment implements TweetAdapter.TweetAdapterListener {
 
-    public interface TweetSelectedListener {
-        // Handle tweet selection
-        void onTweetSelected(Tweet tweet, int position);
-    }
-
-    @BindView(R.id.rvTweets) public RecyclerView rvTweets;
-    private Unbinder unbinder;
-
-
+    @BindView(R.id.rvTweets)
+    public RecyclerView rvTweets;
     public TweetAdapter tweetAdapter;
     public ArrayList<Tweet> tweets;
     public SwipeRefreshLayout swipeContainer;
-    private EndlessRecyclerViewScrollListener scrollListener;
     InternetCheckReceiver broadcastReceiver;
+    private Unbinder unbinder;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     public void onStart() {
@@ -106,24 +100,31 @@ public class TweetsListFragment extends Fragment implements TweetAdapter.TweetAd
     }
 
     public void addItems(JSONArray response) {
-        List<Tweet>  tweetsCollection = Tweet.fromJSONArray(response);
+        List<Tweet> tweetsCollection = Tweet.fromJSONArray(response);
         tweetAdapter.addAll(tweetsCollection);
     }
 
-    public void fetchTimelineAsync(int page) { }
+    public void fetchTimelineAsync(int page) {
+    }
 
     // Append the next page of data into the adapter
-    public void fetchNextPage(long max_id) { }
+    public void fetchNextPage(long max_id) {
+    }
 
     @Override
     public void onItemSelected(View view, int position) {
         Tweet tweet = tweets.get(position);
-        ((TweetSelectedListener)getActivity()).onTweetSelected(tweet, position);
+        ((TweetSelectedListener) getActivity()).onTweetSelected(tweet, position);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    public interface TweetSelectedListener {
+        // Handle tweet selection
+        void onTweetSelected(Tweet tweet, int position);
     }
 }

@@ -14,7 +14,8 @@ public class Media {
     private String mediaUrl;
     private String mediaType; //Type of uploaded media. Possible types include photo, video, and animated_gif
 
-    public Media() { }
+    public Media() {
+    }
 
     public Media(JSONArray media) throws JSONException {
         try {
@@ -33,12 +34,12 @@ public class Media {
         return mediaUrl;
     }
 
-    public String getMediaType() {
-        return mediaType;
-    }
-
     public void setMediaUrl(String mediaUrl) {
         this.mediaUrl = mediaUrl;
+    }
+
+    public String getMediaType() {
+        return mediaType;
     }
 
     public void setMediaType(String mediaType) {

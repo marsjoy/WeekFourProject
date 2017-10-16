@@ -95,7 +95,7 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.miProfile:
                 // Launch the profile activity
                 Intent i = new Intent(this, ProfileActivity.class);

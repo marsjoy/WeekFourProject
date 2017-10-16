@@ -45,11 +45,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     LayoutInflater inflater;
     private TweetAdapterListener mListener;
 
-    // Desfine an interface required by the ViewHolder
-    public interface TweetAdapterListener {
-        public void onItemSelected(View view, int position);
-    }
-
     // Pass in the Tweets array in the constructor
     public TweetAdapter(List<Tweet> tweets, TweetAdapterListener listener) {
         mTweets = tweets;
@@ -67,7 +62,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
 
-        if(inflater == null) {
+        if (inflater == null) {
             inflater = LayoutInflater.from(context);
         }
         View tweetView = inflater.inflate(R.layout.item_tweet, parent, false);
@@ -92,31 +87,31 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvRetweetCount.setText(String.valueOf(tweet.getRetweetCount()));
 
         // Set the favorited status
-        if(tweet.isFavorited()) {
+        if (tweet.isFavorited()) {
             holder.ibFavorite.setImageResource(R.drawable.ic_favorite);
         } else {
             holder.ibFavorite.setImageResource(R.drawable.ic_unfavorite);
         }
 
         // If for some reason the favorite count is not working, set it to 1
-        if(tweet.isFavorited() && tweet.getFavoriteCount() <= 0) {
+        if (tweet.isFavorited() && tweet.getFavoriteCount() <= 0) {
             tweet.setFavoriteCount(1);
         }
 
         // Set the favorite count
-        if(tweet.getFavoriteCount() > 0) {
+        if (tweet.getFavoriteCount() > 0) {
             holder.tvFavoriteCount.setText(String.valueOf(tweet.getFavoriteCount()));
         } else {
             holder.tvFavoriteCount.setText("");
         }
 
-        if(tweet.isRetweeted()) {
+        if (tweet.isRetweeted()) {
             holder.ibRetweet.setImageResource(R.drawable.ic_retweet);
         } else {
             holder.ibRetweet.setImageResource(R.drawable.ic_unretweet);
         }
 
-        if(tweet.getRetweetCount() > 0) {
+        if (tweet.getRetweetCount() > 0) {
             holder.tvRetweetCount.setText(String.valueOf(tweet.getRetweetCount()));
         } else {
             holder.tvRetweetCount.setText("");
@@ -126,6 +121,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         Glide.with(context)
                 .load(tweet.getUser().profileImageUrl)
                 .bitmapTransform(new RoundedCornersTransformation(context, 25, 0))
+                .placeholder(R.drawable.ic_profile_image_placeholder)
                 .into(holder.ivProfileImage);
 
         Glide.with(context)
@@ -151,20 +147,37 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
+    // Desfine an interface required by the ViewHolder
+    public interface TweetAdapterListener {
+        public void onItemSelected(View view, int position);
+    }
+
     // Create ViewHolder class
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.ivProfileImage) public ImageButton ivProfileImage;
-        @BindView(R.id.tvUserName) public TextView tvUsername;
-        @BindView(R.id.tvCreatedAt) public TextView tvCreatedAt;
-        @BindView(R.id.tvBody) public TextView tvBody;
-        @BindView(R.id.tvScreenName) public TextView tvScreenName;
-        @BindView(R.id.tvReplyCount) public TextView tvReplyCount;
-        @BindView(R.id.tvRetweetCount) public TextView tvRetweetCount;
-        @BindView(R.id.tvFavoriteCount) public TextView tvFavoriteCount;
-        @BindView(R.id.ivMediaImage) public ImageView ivMediaImage;
-        @BindView(R.id.ibRetweet) public ImageButton ibRetweet;
-        @BindView(R.id.ibFavorite) public ImageButton ibFavorite;
-        @BindView(R.id.vDivider) public View vDivider;
+        @BindView(R.id.ivProfileImage)
+        public ImageButton ivProfileImage;
+        @BindView(R.id.tvUserName)
+        public TextView tvUsername;
+        @BindView(R.id.tvCreatedAt)
+        public TextView tvCreatedAt;
+        @BindView(R.id.tvBody)
+        public TextView tvBody;
+        @BindView(R.id.tvScreenName)
+        public TextView tvScreenName;
+        @BindView(R.id.tvReplyCount)
+        public TextView tvReplyCount;
+        @BindView(R.id.tvRetweetCount)
+        public TextView tvRetweetCount;
+        @BindView(R.id.tvFavoriteCount)
+        public TextView tvFavoriteCount;
+        @BindView(R.id.ivMediaImage)
+        public ImageView ivMediaImage;
+        @BindView(R.id.ibRetweet)
+        public ImageButton ibRetweet;
+        @BindView(R.id.ibFavorite)
+        public ImageButton ibFavorite;
+        @BindView(R.id.vDivider)
+        public View vDivider;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -325,13 +338,13 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
         public void setFavorited(Tweet tweet) {
             // Set the tweet favorited status
-            if(tweet.isFavorited()) {
+            if (tweet.isFavorited()) {
                 ibFavorite.setImageResource(R.drawable.ic_favorite);
             } else {
                 ibFavorite.setImageResource(R.drawable.ic_unfavorite);
             }
             // Set the number of favorited tweets
-            if(tweet.getFavoriteCount() > 0) {
+            if (tweet.getFavoriteCount() > 0) {
                 tvFavoriteCount.setText(String.valueOf(tweet.getFavoriteCount()));
             } else {
                 tvFavoriteCount.setText("");
@@ -340,13 +353,13 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
         public void setRetweeted(Tweet tweet) {
             // Set the tweet retweeted status
-            if(tweet.isRetweeted()) {
+            if (tweet.isRetweeted()) {
                 ibRetweet.setImageResource(R.drawable.ic_retweet);
             } else {
                 ibRetweet.setImageResource(R.drawable.ic_unretweet);
             }
             // Set the number of retweeted tweets
-            if(tweet.getRetweetCount() > 0) {
+            if (tweet.getRetweetCount() > 0) {
                 tvRetweetCount.setText(String.valueOf(tweet.getRetweetCount()));
             } else {
                 tvRetweetCount.setText("");
@@ -356,18 +369,18 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         @OnClick(R.id.ibMessage)
         public void goToReply() {
             final int position = getAdapterPosition();
-            if(position != RecyclerView.NO_POSITION) {
+            if (position != RecyclerView.NO_POSITION) {
                 final Tweet tweet = mTweets.get(position);
                 Intent i = new Intent(context, ReplyActivity.class);
                 i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
-                ((AppCompatActivity)context).startActivityForResult(i, REQUEST_CODE_REPLY);
+                ((AppCompatActivity) context).startActivityForResult(i, REQUEST_CODE_REPLY);
             }
         }
 
         @OnClick(R.id.ibRetweet)
         public void goToRetweet() {
             int position = getAdapterPosition();
-            if(position != RecyclerView.NO_POSITION) {
+            if (position != RecyclerView.NO_POSITION) {
                 Tweet tweet = mTweets.get(position);
                 if (tweet.isRetweeted()) {
                     unretweetTweet(tweet, position);
@@ -380,9 +393,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         @OnClick(R.id.ibFavorite)
         public void goToFavorite() {
             int position = getAdapterPosition();
-            if(position != RecyclerView.NO_POSITION) {
+            if (position != RecyclerView.NO_POSITION) {
                 Tweet tweet = mTweets.get(position);
-                if(tweet.isFavorited()) {
+                if (tweet.isFavorited()) {
                     unfavoriteTweet(tweet, position);
                 } else {
                     favoriteTweet(tweet, position);
@@ -393,7 +406,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         @OnClick(R.id.ivProfileImage)
         public void goToProfile() {
             final int position = getAdapterPosition();
-            if(position != RecyclerView.NO_POSITION) {
+            if (position != RecyclerView.NO_POSITION) {
                 Tweet tweet = mTweets.get(position);
                 Intent i = new Intent(context, ProfileActivity.class);
                 i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
@@ -403,7 +416,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            if(mListener != null) {
+            if (mListener != null) {
                 // Get the position of the row element
                 int position = getAdapterPosition();
                 // Fire the listener callback

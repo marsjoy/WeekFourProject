@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 
 import mars_williams.tweetastic.networking.TwitterClient;
-import mars_williams.tweetastic.recievers.InternetCheckReceiver;
 
 /*
  * This is the Android application itself and is used to configure various settings
