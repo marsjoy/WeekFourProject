@@ -67,16 +67,6 @@ public class SpanHelper {
         return new SpanRange(start, end);
     }
 
-    public static class SpanRange<Integer> {
-        public final Integer start;
-        public final Integer end;
-
-        public SpanRange(Integer start, Integer end) {
-            this.start = start;
-            this.end = end;
-        }
-    }
-
     public static SpannableString setSpans(String body, Context context) {
         ArrayList<int[]> hashtagSpans = SpanHelper.getHashtagSpans(body);
         ArrayList<int[]> calloutSpans = SpanHelper.getCalloutSpans(body);
@@ -88,5 +78,15 @@ public class SpanHelper {
         SpanHelper.setSpanCallout(styledBody, calloutSpans, context);
 
         return styledBody;
+    }
+
+    public static class SpanRange<Integer> {
+        public final Integer start;
+        public final Integer end;
+
+        public SpanRange(Integer start, Integer end) {
+            this.start = start;
+            this.end = end;
+        }
     }
 }

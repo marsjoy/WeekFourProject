@@ -20,17 +20,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import mars_williams.tweetastic.R;
-import mars_williams.tweetastic.adapters.TweetAdapter;
+import mars_williams.tweetastic.adapters.UserAdapter;
 import mars_williams.tweetastic.listeners.EndlessRecyclerViewScrollListener;
-import mars_williams.tweetastic.models.Tweet;
+import mars_williams.tweetastic.models.User;
 import mars_williams.tweetastic.recievers.InternetCheckReceiver;
 
-public class TweetsListFragment extends Fragment implements TweetAdapter.TweetAdapterListener {
+/**
+ * Created by mars_williams on 10/16/17.
+ */
 
-    @BindView(R.id.rvTweets)
-    public RecyclerView rvTweets;
-    public TweetAdapter tweetAdapter;
-    public ArrayList<Tweet> tweets;
+public class UsersListFragment extends Fragment implements UserAdapter.UserAdapterListener {
+
+    @BindView(R.id.rvUsers)
+    public RecyclerView rvUsers;
+    public UserAdapter userAdapter;
+    public ArrayList<User> users;
     public SwipeRefreshLayout swipeContainer;
     InternetCheckReceiver broadcastReceiver;
     private Unbinder unbinder;
@@ -40,7 +44,7 @@ public class TweetsListFragment extends Fragment implements TweetAdapter.TweetAd
     public void onStart() {
         super.onStart();
         IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-        broadcastReceiver = new InternetCheckReceiver(rvTweets);
+        broadcastReceiver = new InternetCheckReceiver(rvUsers);
         this.getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
 
@@ -54,29 +58,29 @@ public class TweetsListFragment extends Fragment implements TweetAdapter.TweetAd
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tweets_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_users_list, container, false);
         unbinder = ButterKnife.bind(this, view);
 
         // Init the arraylist (data source)
-        tweets = new ArrayList<>();
+        users = new ArrayList<>();
         // Construct the adapter from this datasource
-        tweetAdapter = new TweetAdapter(tweets, (TweetAdapter.TweetAdapterListener) this);
+        userAdapter = new UserAdapter(users, (UserAdapter.UserAdapterListener) this);
         // RecyclerView setup (layout manager, use adapter)
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
-        rvTweets.setLayoutManager(linearLayoutManager);
+        rvUsers.setLayoutManager(linearLayoutManager);
         // Set the adapter
-        rvTweets.setAdapter(tweetAdapter);
+        rvUsers.setAdapter(userAdapter);
 
         // Initialize the infinite pagination
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Tweet lastTweet = tweets.get(tweets.size() - 1);
-                fetchNextPage(lastTweet.getTweetId() - 1);
+                User lastUser = users.get(users.size() - 1);
+                fetchNextPage(lastUser.getTwitterUserId() - 1);
             }
         };
-        rvTweets.addOnScrollListener(scrollListener);
+        rvUsers.addOnScrollListener(scrollListener);
 
         // Lookup the swipe container view
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
@@ -100,8 +104,8 @@ public class TweetsListFragment extends Fragment implements TweetAdapter.TweetAd
     }
 
     public void addItems(JSONArray response) {
-        List<Tweet> tweetsCollection = Tweet.fromJSONArray(response);
-        tweetAdapter.addAll(tweetsCollection);
+        List<User> usersCollection = User.fromJSONArray(response);
+        userAdapter.addAll(usersCollection);
     }
 
     public void fetchTimelineAsync(int page) {
@@ -113,8 +117,8 @@ public class TweetsListFragment extends Fragment implements TweetAdapter.TweetAd
 
     @Override
     public void onItemSelected(View view, int position) {
-        Tweet tweet = tweets.get(position);
-        ((TweetSelectedListener) getActivity()).onTweetSelected(tweet, position);
+        User user = users.get(position);
+        ((UserSelectedListener) getActivity()).onUserSelected(user, position);
     }
 
     @Override
@@ -123,8 +127,8 @@ public class TweetsListFragment extends Fragment implements TweetAdapter.TweetAd
         unbinder.unbind();
     }
 
-    public interface TweetSelectedListener {
-        // Handle tweet selection
-        void onTweetSelected(Tweet tweet, int position);
+    public interface UserSelectedListener {
+        // Handle user selection
+        void onUserSelected(User user, int position);
     }
 }

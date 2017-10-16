@@ -22,6 +22,7 @@ import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import mars_williams.tweetastic.R;
@@ -54,6 +55,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
     Tweet tweet;
     UserTimelineFragment userTimelineFragment;
     TextView mTitleTextView;
+    String screenName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
         ButterKnife.bind(this);
         client = TwitterApplication.getRestClient();
 
-        String screenName = getIntent().getStringExtra("screen_name");
+        screenName = getIntent().getStringExtra("screen_name");
         tweet = Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
         if (tweet != null) {
             screenName = tweet.getUser().getScreenName();
@@ -118,6 +120,22 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
                 .bitmapTransform(new RoundedCornersTransformation(this, 25, 0))
                 .placeholder(R.drawable.ic_profile_image_placeholder)
                 .into(ivProfileImage);
+    }
+
+    @OnClick(R.id.tvFollowers)
+    public void getFollowers() {
+        // Create an intent to the FollowersActivity
+        Intent i = new Intent(this, FollowersActivity.class);
+        i.putExtra("screen_name", screenName);
+        startActivityForResult(i, REQUEST_CODE_DETAILS);
+    }
+
+    @OnClick(R.id.tvFollowing)
+    public void getFollowing() {
+        // Create an intent to the FollowingActivity
+        Intent i = new Intent(this, FollowingActivity.class);
+        i.putExtra("screen_name", screenName);
+        startActivityForResult(i, REQUEST_CODE_DETAILS);
     }
 
     public void getCurrentUserInfo() {

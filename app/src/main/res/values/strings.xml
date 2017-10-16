@@ -59,4 +59,7 @@
     <string name="callout">callout</string>
     <string name="screen_name">screen_name</string>
     <string name="search_query">search_query</string>
+    <string name="user_followers">%s\'s Followers</string>
+    <string name="user_following">%s\'s Following</string>
+    <string name="unable_to_fetch_users">Unable to fetch users</string>
 </resources>

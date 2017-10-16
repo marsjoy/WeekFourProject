@@ -52,6 +52,8 @@
         <activity android:name=".activities.ReplyActivity" />
         <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.SearchActivity" />
+        <activity android:name=".activities.FollowersActivity" />
+        <activity android:name=".activities.FollowingActivity" />
     </application>
 
 </manifest>

@@ -8,6 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 
+import java.util.ArrayList;
+
 import cz.msebera.android.httpclient.Header;
 import mars_williams.tweetastic.TwitterApplication;
 import mars_williams.tweetastic.networking.TwitterClient;
@@ -94,15 +96,20 @@ public class User extends SugarRecord<User> {
         });
     }
 
-    public static User fromJSONArray(JSONArray array) {
-        User user = null;
-        try {
-            JSONObject raw_user = array.getJSONObject(0);
-            user = User.fromJSON(raw_user);
-        } catch (JSONException e) {
-            e.printStackTrace();
+    public static ArrayList<User> fromJSONArray(JSONArray array) {
+        ArrayList<User> users = new ArrayList<>();
+
+        for (int index = 0; index < array.length(); ++index) {
+            try {
+                User user = User.fromJSON(array.getJSONObject(index));
+                if (user != null) {
+                    users.add(user);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
-        return user;
+        return users;
     }
 
     public String getName() {
