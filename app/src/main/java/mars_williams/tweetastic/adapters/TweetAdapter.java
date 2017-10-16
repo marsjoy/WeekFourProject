@@ -30,6 +30,7 @@ import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import mars_williams.tweetastic.R;
 import mars_williams.tweetastic.TwitterApplication;
+import mars_williams.tweetastic.activities.ProfileActivity;
 import mars_williams.tweetastic.activities.ReplyActivity;
 import mars_williams.tweetastic.models.Tweet;
 import mars_williams.tweetastic.networking.TwitterClient;
@@ -386,6 +387,17 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 } else {
                     favoriteTweet(tweet, position);
                 }
+            }
+        }
+
+        @OnClick(R.id.ivProfileImage)
+        public void goToProfile() {
+            final int position = getAdapterPosition();
+            if(position != RecyclerView.NO_POSITION) {
+                Tweet tweet = mTweets.get(position);
+                Intent i = new Intent(context, ProfileActivity.class);
+                i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+                (context).startActivity(i);
             }
         }
 

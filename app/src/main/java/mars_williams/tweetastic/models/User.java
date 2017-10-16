@@ -20,6 +20,9 @@ public class User extends SugarRecord<User> {
     public long twitterUserId;
     public String screenName;
     public String profileImageUrl;
+    public String tagLine;
+    public int followersCount;
+    public int followingCount;
 
     public User() {
     }
@@ -29,13 +32,20 @@ public class User extends SugarRecord<User> {
         this.twitterUserId = object.getLong("id");
         this.screenName = object.getString("screen_name");
         this.profileImageUrl = object.getString("profile_image_url");
+        this.tagLine = object.getString("description");
+        this.followersCount = object.getInt("followers_count");
+        this.followingCount = object.getInt("friends_count");
+
     }
 
-    public User(String name, long twitterUserId, String screenName, String profileImageUrl) {
+    public User(String name, long twitterUserId, String screenName, String profileImageUrl, String tagLine, int followersCount, int followingCount) {
         this.name = name;
         this.twitterUserId = twitterUserId;
         this.screenName = screenName;
         this.profileImageUrl = profileImageUrl;
+        this.tagLine = tagLine;
+        this.followersCount = followersCount;
+        this.followingCount = followingCount;
     }
 
 
@@ -48,6 +58,9 @@ public class User extends SugarRecord<User> {
         user.twitterUserId = json.getLong("id");
         user.screenName = json.getString("screen_name");
         user.profileImageUrl = json.getString("profile_image_url");
+        user.tagLine = json.getString("description");
+        user.followersCount = json.getInt("followers_count");
+        user.followingCount = json.getInt("friends_count");
         return user;
     }
 
@@ -81,6 +94,30 @@ public class User extends SugarRecord<User> {
 
     public void setProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
+    }
+
+    public String getTagLine() {
+        return tagLine;
+    }
+
+    public void setTagLine(String tagLine) {
+        this.tagLine = tagLine;
+    }
+
+    public int getFollowersCount() {
+        return followersCount;
+    }
+
+    public void setFollowersCount(int followersCount) {
+        this.followersCount = followersCount;
+    }
+
+    public int getFollowingCount() {
+        return followingCount;
+    }
+
+    public void setFollowingCount(int followingCount) {
+        this.followingCount = followingCount;
     }
 
     public interface UserCallbackInterface {

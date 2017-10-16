@@ -8,6 +8,7 @@
     <dimen name="tweet_username_margin">6dp</dimen>
     <dimen name="tweet_character_count_margin">2dp</dimen>
     <dimen name="tweet_profile_image_margin">10dp</dimen>
+    <dimen name="profile_margin">10dp</dimen>
     <dimen name="tweet_profile_image_height">48dp</dimen>
     <dimen name="tweet_profile_image_width">48dp</dimen>
     <dimen name="tweet_button_width">48dp</dimen>

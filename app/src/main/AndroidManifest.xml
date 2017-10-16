@@ -50,6 +50,7 @@
         <activity android:name=".activities.TimelineActivity" />
         <activity android:name=".activities.TweetDetailsActivity" />
         <activity android:name=".activities.ReplyActivity" />
+        <activity android:name=".activities.ProfileActivity" />
     </application>
 
 </manifest>

@@ -1,37 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    tools:context=".activities.ProfileActivity">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/sliding_tabsProfile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabMode="fixed" />
+    <RelativeLayout
+        android:id="@+id/rlUserHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
-    <android.support.design.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="@dimen/tweet_profile_image_width"
+            android:layout_height="@dimen/tweet_profile_image_height"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="@dimen/tweet_profile_image_margin"
+            android:src="@android:drawable/screen_background_light_transparent" />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpagerProfile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabNewTweetProfile"
+        <TextView
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/ic_compose_fab"
-            android:elevation="@dimen/fab_elevation"
-            app:backgroundTint="@color/twitter_blue"
-            app:layout_anchorGravity="bottom|end" />
-    </android.support.design.widget.CoordinatorLayout>
+            android:layout_toRightOf="@+id/ivProfileImage"
+            android:text="@string/name"
+            android:textSize="16sp" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tvTagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName"
+            android:layout_toRightOf="@+id/ivProfileImage"
+            android:text="@string/tagline" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llCounts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlUserHeader"
+        android:layout_marginBottom="@dimen/profile_margin">
+
+        <TextView
+            android:id="@+id/tvFollowers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/count_followers" />
+
+        <TextView
+            android:id="@+id/tvFollowing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/profile_margin"
+            android:text="@string/count_following" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/flContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/llCounts">
+    </FrameLayout>
+
+</RelativeLayout>
+

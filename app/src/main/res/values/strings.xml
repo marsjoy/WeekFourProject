@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Tweetastic</string>
+    <string name="followers_count">%d Followers"</string>
+    <string name="following_count">%d Following</string>
     <string name="login_label">Log in</string>
     <string name="intent_scheme">Sweet Tweets Oauth</string>
     <string name="intent_host">Sweet Tweets Rest</string>
@@ -45,4 +47,10 @@
     <string name="yes">Yes</string>
     <string name="home">Home</string>
     <string name="mentions">Mentions</string>
+    <string name="profile">Profile</string>
+    <string name="count_following">3 Following</string>
+    <string name="count_followers">3 Followers</string>
+    <string name="tagline">Tagline</string>
+    <string name="name">Name</string>
+    <string name="user_profile">%s\'s Profile</string>
 </resources>

@@ -23,6 +23,14 @@ public class UserTimelineFragment extends TweetsListFragment {
 
     TwitterClient client;
 
+    public static UserTimelineFragment newInstance(String screenName) {
+        UserTimelineFragment userTimelineFragment = new UserTimelineFragment();
+        Bundle args = new Bundle();
+        args.putString("screen_name", screenName);
+        userTimelineFragment.setArguments(args);
+        return userTimelineFragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
