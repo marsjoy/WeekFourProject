@@ -76,4 +76,17 @@ public class SpanHelper {
             this.end = end;
         }
     }
+
+    public static SpannableString setSpans(String body, Context context) {
+        ArrayList<int[]> hashtagSpans = SpanHelper.getHashtagSpans(body);
+        ArrayList<int[]> calloutSpans = SpanHelper.getCalloutSpans(body);
+
+        SpannableString styledBody =
+                new SpannableString(body);
+
+        SpanHelper.setSpanHashtag(styledBody, hashtagSpans, context);
+        SpanHelper.setSpanCallout(styledBody, calloutSpans, context);
+
+        return styledBody;
+    }
 }

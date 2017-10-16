@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -87,7 +85,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvScreenName.setText(holder.tvScreenName.getContext()
                 .getString(R.string.formatted_user_screen_name, tweet.getUser().getScreenName()));
         holder.tvCreatedAt.setText(tweet.getRelativeCreatedAt());
-        holder.tvBody.setText(setSpans(tweet.getBody(), context));
+        holder.tvBody.setText(SpanHelper.setSpans(tweet.getBody(), context));
         holder.tvBody.setMovementMethod(LinkMovementMethod.getInstance());
         holder.tvReplyCount.setText("");
         holder.tvRetweetCount.setText(String.valueOf(tweet.getRetweetCount()));
@@ -134,19 +132,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 .load(tweet.media.getMediaUrl())
                 .bitmapTransform(new RoundedCornersTransformation(context, 25, 0))
                 .into(holder.ivMediaImage);
-    }
-
-    public SpannableString setSpans(String body, Context context) {
-        ArrayList<int[]> hashtagSpans = SpanHelper.getHashtagSpans(body);
-        ArrayList<int[]> calloutSpans = SpanHelper.getCalloutSpans(body);
-
-        SpannableString styledBody =
-                new SpannableString(body);
-
-        SpanHelper.setSpanHashtag(styledBody, hashtagSpans, context);
-        SpanHelper.setSpanCallout(styledBody, calloutSpans, context);
-
-        return styledBody;
     }
 
     @Override

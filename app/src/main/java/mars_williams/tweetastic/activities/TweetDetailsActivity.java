@@ -26,6 +26,7 @@ import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import mars_williams.tweetastic.R;
 import mars_williams.tweetastic.TwitterApplication;
+import mars_williams.tweetastic.helpers.SpanHelper;
 import mars_williams.tweetastic.models.Tweet;
 import mars_williams.tweetastic.networking.TwitterClient;
 
@@ -97,7 +98,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
     public void populateDetails() {
         // Populate the views according to this data
         tvUserName.setText(tweet.getUser().name);
-        tvTweetBody.setText(tweet.getBody());
+        tvTweetBody.setText(SpanHelper.setSpans(tweet.getBody(), this));
         tvScreenName.setText(getString(R.string.replying_to, tweet.getUser().getScreenName()));
         tvTimeStamp.setText(tweet.getCreatedAt());
 
