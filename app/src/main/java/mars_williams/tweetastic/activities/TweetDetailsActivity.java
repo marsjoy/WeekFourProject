@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -328,6 +329,15 @@ public class TweetDetailsActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), getString(R.string.unable_to_unfavorite_tweet), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @OnClick(R.id.ivProfileImageDetails)
+    public void goToProfile() {
+        if (position != RecyclerView.NO_POSITION) {
+            Intent i = new Intent(this, ProfileActivity.class);
+            i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+            (this).startActivity(i);
+        }
     }
 
     @Override

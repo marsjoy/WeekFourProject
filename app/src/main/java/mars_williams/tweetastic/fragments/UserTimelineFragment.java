@@ -22,6 +22,7 @@ import mars_williams.tweetastic.networking.TwitterClient;
 public class UserTimelineFragment extends TweetsListFragment {
 
     TwitterClient client;
+    String screenName;
 
     public static UserTimelineFragment newInstance(String screenName) {
         UserTimelineFragment userTimelineFragment = new UserTimelineFragment();
@@ -39,7 +40,8 @@ public class UserTimelineFragment extends TweetsListFragment {
     }
 
     private void populateTimeline() {
-        client.getUserTimelinePage(0, new JsonHttpResponseHandler() {
+        screenName = getArguments().getString("screen_name");
+        client.getUserTimelinePage(0, screenName, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d(getString(R.string.twitter_client), response.toString());
@@ -76,7 +78,7 @@ public class UserTimelineFragment extends TweetsListFragment {
 
     @Override
     public void fetchTimelineAsync(int page) {
-        client.getUserTimelinePage(page, new JsonHttpResponseHandler() {
+        client.getUserTimelinePage(page, screenName, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d(getString(R.string.twitter_client), response.toString());
@@ -118,7 +120,7 @@ public class UserTimelineFragment extends TweetsListFragment {
 
     @Override
     public void fetchNextPage(long max_id) {
-        client.getUserTimelinePage(max_id, new JsonHttpResponseHandler() {
+        client.getUserTimelinePage(max_id, screenName, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d(getString(R.string.twitter_client), response.toString());

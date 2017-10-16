@@ -53,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvScreenName"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginStart="@dimen/details_margin"
             android:layout_toEndOf="@+id/ivProfileImage"
             android:text="@string/tagline" />
@@ -61,10 +62,10 @@
             android:id="@+id/vDivider1"
             android:layout_width="match_parent"
             android:layout_height="@dimen/divider_height"
-            android:layout_below="@+id/ivProfileImage"
+            android:layout_below="@+id/tvTagline"
             android:layout_marginEnd="@dimen/details_margin"
             android:layout_marginStart="@dimen/details_margin"
-            android:layout_marginTop="@dimen/details_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:background="@color/twitter_dark_gray" />
 
         <LinearLayout
@@ -78,7 +79,6 @@
                 android:id="@+id/tvNumFollowers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/details_margin"
                 android:layout_marginStart="@dimen/tweet_button_margin"
                 android:layout_marginTop="@dimen/details_margin"
                 android:text="@string/num"
@@ -89,14 +89,14 @@
                 android:id="@+id/tvFollowers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/details_margin"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="@dimen/details_margin"
                 android:text="@string/retweets" />
 
             <TextView
                 android:id="@+id/tvNumFollowing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/details_margin"
                 android:layout_marginTop="@dimen/details_margin"
                 android:text="@string/num"
                 android:textColor="@android:color/black"
@@ -106,7 +106,8 @@
                 android:id="@+id/tvFollowing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/details_margin"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="@dimen/details_margin"
                 android:text="@string/favorites" />
         </LinearLayout>
 
