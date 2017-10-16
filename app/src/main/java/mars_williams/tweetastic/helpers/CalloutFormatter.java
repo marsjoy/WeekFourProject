@@ -4,8 +4,8 @@ package mars_williams.tweetastic.helpers;
  * Created by mars_williams on 10/16/17.
  */
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
@@ -13,15 +13,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import mars_williams.tweetastic.R;
+import mars_williams.tweetastic.activities.ProfileActivity;
 
 public class CalloutFormatter extends ClickableSpan {
     Context mContext;
-    Activity mActivity;
 
-    public CalloutFormatter(Context context, Activity activity) {
+    public CalloutFormatter(Context context) {
         super();
         mContext = context;
-        mActivity = activity;
     }
 
     @Override
@@ -40,9 +39,9 @@ public class CalloutFormatter extends ClickableSpan {
         String callout = s.subSequence(start + 1, end).toString();
 
         // start profile activity here
-//        Intent i = new Intent(context, activity.getClass());
-//        i.putExtra(activity.getLocalClassName(), Parcels.wrap(callout));
-//        (context).startActivity(i);
+        Intent i = new Intent(mContext, ProfileActivity.class);
+        i.putExtra(mContext.getString(R.string.screen_name), callout);
+        mContext.startActivity(i);
     }
 }
 

@@ -4,25 +4,26 @@ package mars_williams.tweetastic.helpers;
  * Created by mars_williams on 10/16/17.
  */
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.TextView;
 
+import org.parceler.Parcels;
+
 import mars_williams.tweetastic.R;
+import mars_williams.tweetastic.activities.SearchActivity;
 
 public class HashtagFormatter extends ClickableSpan {
     Context mContext;
-    Activity mActivity;
     TextPaint textPaint;
 
-    public HashtagFormatter(Context context, Activity activity) {
+    public HashtagFormatter(Context context) {
         super();
         mContext = context;
-        mActivity = activity;
     }
 
     @Override
@@ -43,8 +44,8 @@ public class HashtagFormatter extends ClickableSpan {
         String hashtag = s.subSequence(start + 1, end).toString();
 
         // start search activity here
-//        Intent i = new Intent(context, activity.getClass());
-//        i.putExtra(activity.getLocalClassName(), Parcels.wrap(hashtag));
-//        (context).startActivity(i);
+        Intent i = new Intent(mContext, SearchActivity.class);
+        i.putExtra(SearchActivity.class.getSimpleName(), Parcels.wrap(hashtag));
+        (mContext).startActivity(i);
     }
 }

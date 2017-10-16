@@ -1,6 +1,5 @@
 package mars_williams.tweetastic.helpers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.text.SpannableString;
 
@@ -16,12 +15,12 @@ public class SpanHelper {
 
     public static ArrayList<int[]> getHashtagSpans(String body) {
         ArrayList<int[]> spans = matchSpans(body, "[#]+[A-Za-z0-9-_]+\\b");
-        return  spans;
+        return spans;
     }
 
     public static ArrayList<int[]> getCalloutSpans(String body) {
         ArrayList<int[]> spans = matchSpans(body, "[@]+[A-Za-z0-9-_]+\\b");
-        return  spans;
+        return spans;
     }
 
     public static ArrayList<int[]> matchSpans(String body, String regexString) {
@@ -37,24 +36,24 @@ public class SpanHelper {
             currentSpan[1] = matcher.end();
             spans.add(currentSpan);
         }
-        return  spans;
+        return spans;
     }
 
-    public static void setSpanHashtag(SpannableString styledBody, ArrayList<int[]> hashtagSpans, Context context, Activity activity) {
-        for(int i = 0; i < hashtagSpans.size(); i++) {
+    public static void setSpanHashtag(SpannableString styledBody, ArrayList<int[]> hashtagSpans, Context context) {
+        for (int i = 0; i < hashtagSpans.size(); i++) {
             SpanRange spanRange = setSpan(i, hashtagSpans);
 
-            styledBody.setSpan(new HashtagFormatter(context, activity),
+            styledBody.setSpan(new HashtagFormatter(context),
                     (int) spanRange.start,
                     (int) spanRange.end, 0);
         }
     }
 
-    public static void setSpanCallout(SpannableString styledBody, ArrayList<int[]> calloutSpans, Context context, Activity activity) {
-        for(int i = 0; i < calloutSpans.size(); i++) {
+    public static void setSpanCallout(SpannableString styledBody, ArrayList<int[]> calloutSpans, Context context) {
+        for (int i = 0; i < calloutSpans.size(); i++) {
             SpanRange spanRange = setSpan(i, calloutSpans);
 
-            styledBody.setSpan(new CalloutFormatter(context, activity),
+            styledBody.setSpan(new CalloutFormatter(context),
                     (int) spanRange.start,
                     (int) spanRange.end, 0);
         }

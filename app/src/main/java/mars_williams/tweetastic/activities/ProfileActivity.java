@@ -34,6 +34,7 @@ import mars_williams.tweetastic.networking.TwitterClient;
 
 import static mars_williams.tweetastic.activities.TimelineActivity.REQUEST_CODE_DETAILS;
 import static mars_williams.tweetastic.activities.TimelineActivity.TWEET_POSITION;
+import static mars_williams.tweetastic.models.User.fromJSON;
 
 
 public class ProfileActivity extends AppCompatActivity implements TweetsListFragment.TweetSelectedListener {
@@ -82,6 +83,8 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
         if (tweet != null) {
             populateUserHeadline(tweet.getUser());
             // If the tweet is invalid, get this user's info
+        } else if (screenName != null) {
+            getUserInfo(screenName);
         } else {
             getCurrentUserInfo();
         }
@@ -123,7 +126,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     // Deserialize the user object
-                    User user = User.fromJSON(response);
+                    User user = fromJSON(response);
                     // Populate the user headline
                     populateUserHeadline(user);
                 } catch (JSONException e) {
@@ -140,6 +143,35 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                throwable.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Failed to get profile", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                throwable.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Failed to get profile", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void getUserInfo(String screenName) {
+        client.getUser(screenName, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                // Deserialize the user object
+                User user = null;
+                try {
+                    user = fromJSON(response.getJSONObject(0));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                // Populate the user headline
+                populateUserHeadline(user);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 throwable.printStackTrace();
                 Toast.makeText(getApplicationContext(), "Failed to get profile", Toast.LENGTH_SHORT).show();
             }

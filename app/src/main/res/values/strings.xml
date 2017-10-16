@@ -53,4 +53,9 @@
     <string name="tagline">Tagline</string>
     <string name="name">Name</string>
     <string name="user_profile">%s\'s Profile</string>
+    <string name="tag_click">Tag : %s</string>
+    <string name="callout_link">Here\'s a cool person: %s</string>
+    <string name="search_title">Search: %s</string>
+    <string name="callout">callout</string>
+    <string name="screen_name">screen_name</string>
 </resources>

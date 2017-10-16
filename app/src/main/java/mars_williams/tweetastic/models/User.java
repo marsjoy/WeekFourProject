@@ -94,6 +94,17 @@ public class User extends SugarRecord<User> {
         });
     }
 
+    public static User fromJSONArray(JSONArray array) {
+        User user = null;
+        try {
+            JSONObject raw_user = array.getJSONObject(0);
+            user = User.fromJSON(raw_user);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
     public String getName() {
         return name;
     }

@@ -83,7 +83,7 @@
         android:background="@android:color/darker_gray" />
 
     <LinearLayout
-        android:id="@+id/llRetweetsFavoritesDetails"
+        android:id="@+id/llCounts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/vDividerDetails1"
@@ -127,7 +127,7 @@
         android:id="@+id/vDividerDetails2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
-        android:layout_below="@+id/llRetweetsFavoritesDetails"
+        android:layout_below="@+id/llCounts"
         android:layout_margin="@dimen/details_margin"
         android:background="@android:color/darker_gray" />
 
