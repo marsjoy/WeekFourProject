@@ -12,8 +12,6 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.TextView;
 
-import org.parceler.Parcels;
-
 import mars_williams.tweetastic.R;
 import mars_williams.tweetastic.activities.SearchActivity;
 
@@ -45,7 +43,7 @@ public class HashtagFormatter extends ClickableSpan {
 
         // start search activity here
         Intent i = new Intent(mContext, SearchActivity.class);
-        i.putExtra(SearchActivity.class.getSimpleName(), Parcels.wrap(hashtag));
+        i.putExtra(mContext.getString(R.string.search_query), hashtag);
         (mContext).startActivity(i);
     }
 }

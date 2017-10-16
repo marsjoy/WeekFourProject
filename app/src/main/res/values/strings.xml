@@ -58,4 +58,5 @@
     <string name="search_title">Search: %s</string>
     <string name="callout">callout</string>
     <string name="screen_name">screen_name</string>
+    <string name="search_query">search_query</string>
 </resources>
