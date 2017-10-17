@@ -123,8 +123,24 @@ public class TweetsListFragment extends Fragment implements TweetAdapter.TweetAd
         unbinder.unbind();
     }
 
+    public void showProgressBar() {
+        ((LoadingProgressDialog) getActivity()).showProgressBar();
+    }
+
+    public void hideProgressBar() {
+        ((LoadingProgressDialog) getActivity()).hideProgressBar();
+    }
+
+    public interface LoadingProgressDialog {
+        // Show/hide progress dialog
+        void showProgressBar();
+
+        void hideProgressBar();
+    }
+
     public interface TweetSelectedListener {
         // Handle tweet selection
         void onTweetSelected(Tweet tweet, int position);
     }
+
 }

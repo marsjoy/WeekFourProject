@@ -7,8 +7,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +41,9 @@ import static mars_williams.tweetastic.activities.TimelineActivity.TWEET_POSITIO
 import static mars_williams.tweetastic.models.User.fromJSON;
 
 
-public class ProfileActivity extends AppCompatActivity implements TweetsListFragment.TweetSelectedListener {
+public class ProfileActivity extends AppCompatActivity
+        implements TweetsListFragment.TweetSelectedListener,
+        TweetsListFragment.LoadingProgressDialog {
 
     @BindView(R.id.tvUserName)
     TextView tvName;
@@ -48,8 +53,6 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
     TextView tvFollowers;
     @BindView(R.id.tvFollowing)
     TextView tvFollowing;
-    @BindView(R.id.tvScreenName)
-    TextView tvScreenName;
     @BindView(R.id.ivProfileImage)
     ImageView ivProfileImage;
 
@@ -58,6 +61,9 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
     UserTimelineFragment userTimelineFragment;
     TextView mTitleTextView;
     String screenName;
+    MenuItem miActionProgressItem;
+    MenuItem miHomeItem;
+    ProgressBar progressBar;
     User mUser;
 
     @Override
@@ -67,36 +73,35 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
         ButterKnife.bind(this);
         client = TwitterApplication.getRestClient();
 
-        // Get intent extras
         screenName = getIntent().getStringExtra("screen_name");
         tweet = Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
+        if (tweet != null) {
+            screenName = tweet.getUser().getScreenName();
+        }
 
-        mUser = getUser();
-        populateUserHeadline(mUser);
-        setupActionBar(mUser);
+        setupActionBar();
 
         // Create the user fragment
-        userTimelineFragment = UserTimelineFragment.newInstance(mUser.getScreenName());
+        userTimelineFragment = UserTimelineFragment.newInstance(screenName);
         // Display the user timeline fragment inside the container (dynamically)
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         // Make transaction
         ft.replace(R.id.flContainer, userTimelineFragment);
         // Commit transaction
         ft.commit();
-    }
 
-    public User getUser() {
+        // If the tweet is valid, get another user's info
         if (tweet != null) {
-            return tweet.getUser();
+            populateUserHeadline(tweet.getUser());
             // If the tweet is invalid, get this user's info
         } else if (screenName != null) {
-            return getUserInfo(screenName);
+            getUserInfo(screenName);
         } else {
-            return getCurrentUserInfo();
+            getCurrentUserInfo();
         }
     }
 
-    public void setupActionBar(User mUser) {
+    public void setupActionBar() {
         // Set up the action bar
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
@@ -107,20 +112,21 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
 
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
-        mActionBar.setTitle(mUser.getName());
     }
 
-    public void populateUserHeadline(User mUser) {
+    public void populateUserHeadline(User user) {
+        mUser = user;
         // Populate profile info views
-        tvName.setText(mUser.getName());
-        tvScreenName.setText(mUser.getScreenName());
-        tvTagline.setText(mUser.getTagLine());
-        tvFollowers.setText(getString(R.string.followers_count, mUser.getFollowersCount()));
-        tvFollowing.setText(getString(R.string.following_count, mUser.getFollowingCount()));
+        tvName.setText(user.getName());
+        tvTagline.setText(user.getTagLine());
+        tvFollowers.setText(getString(R.string.followers_count, user.getFollowersCount()));
+        tvFollowing.setText(getString(R.string.following_count, user.getFollowingCount()));
+        mTitleTextView = (TextView) findViewById(R.id.actionbar_title);
+        mTitleTextView.setText(getString(R.string.user_profile, user.getName()));
 
         // Load profile image with Glide
         Glide.with(this)
-                .load(mUser.getProfileImageUrl())
+                .load(user.getProfileImageUrl())
                 .bitmapTransform(new RoundedCornersTransformation(this, 25, 0))
                 .placeholder(R.drawable.ic_profile_image_placeholder)
                 .into(ivProfileImage);
@@ -142,15 +148,15 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
         startActivityForResult(i, REQUEST_CODE_DETAILS);
     }
 
-    public User getCurrentUserInfo() {
+    public void getCurrentUserInfo() {
         client.verifyCredentials(new JsonHttpResponseHandler() {
-            User mUser;
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     // Deserialize the user object
-                    mUser = fromJSON(response);
+                    User user = fromJSON(response);
                     // Populate the user headline
+                    populateUserHeadline(user);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Failed to get profile", Toast.LENGTH_SHORT).show();
@@ -175,19 +181,17 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
                 Toast.makeText(getApplicationContext(), "Failed to get profile", Toast.LENGTH_SHORT).show();
             }
         });
-        return mUser;
     }
 
-    public User getUserInfo(String screenName) {
+    public void getUserInfo(String screenName) {
         client.getUser(screenName, new JsonHttpResponseHandler() {
-            User mUser;
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 // Deserialize the user object
                 try {
-                    User user = fromJSON(response.getJSONObject(0));
                     // Populate the user headline
-                    mUser = user;
+                    User user = fromJSON(response.getJSONObject(0));
+                    populateUserHeadline(user);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -205,7 +209,6 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
                 Toast.makeText(getApplicationContext(), "Failed to get profile", Toast.LENGTH_SHORT).show();
             }
         });
-        return mUser;
     }
 
     @Override
@@ -231,6 +234,46 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
             userTimelineFragment.tweets.set(position, newTweet);
             userTimelineFragment.tweetAdapter.notifyItemChanged(position);
             userTimelineFragment.rvTweets.scrollToPosition(position);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu
+        getMenuInflater().inflate(R.menu.menu_profile, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        miHomeItem = menu.findItem(R.id.miHome);
+        // Extract the action-view from the menu item
+        progressBar = (ProgressBar) miActionProgressItem.getActionView();
+        miHomeItem.isEnabled();
+        miHomeItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Intent i = new Intent(getBaseContext(), TimelineActivity.class);
+                startActivity(i);
+                return true;
+            }
+        });
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void showProgressBar() {
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(true);
+        }
+    }
+
+    @Override
+    public void hideProgressBar() {
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(false);
         }
     }
 }

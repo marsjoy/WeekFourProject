@@ -33,7 +33,7 @@ The following **optional** features are implemented:
 
 * [x] User can view following / followers list through the profile
 * [x] Implements robust error handling, [check if internet is available](http://guides.codepath.com/android/Sending-and-Managing-Network-Requests#checking-for-network-connectivity), handle error cases, network failures
-* [ ] When a network request is sent, user sees an [indeterminate progress indicator](http://guides.codepath.com/android/Handling-ProgressBars#progress-within-actionbar)
+* [x] When a network request is sent, user sees an [indeterminate progress indicator](http://guides.codepath.com/android/Handling-ProgressBars#progress-within-actionbar)
 * [x] User can **"reply" to any tweet on their home timeline**
   * [x] The user that wrote the original tweet is automatically "@" replied in compose
 * [x] User can click on a tweet to be **taken to a "detail view"** of that tweet
@@ -45,7 +45,7 @@ The following **bonus** features are implemented:
 
 * [x] Use Parcelable instead of Serializable using the popular [Parceler library](http://guides.codepath.com/android/Using-Parceler).
 * [ ] Leverages the [data binding support module](http://guides.codepath.com/android/Applying-Data-Binding-for-Views) to bind data into layout templates.
-* [ ] On the profile screen, leverage the [CoordinatorLayout](http://guides.codepath.com/android/Handling-Scrolls-with-CoordinatorLayout#responding-to-scroll-events) to [apply scrolling behavior](https://hackmd.io/s/SJyDOCgU) as the user scrolls through the profile timeline.
+* [x] On the profile screen, leverage the [CoordinatorLayout](http://guides.codepath.com/android/Handling-Scrolls-with-CoordinatorLayout#responding-to-scroll-events) to [apply scrolling behavior](https://hackmd.io/s/SJyDOCgU) as the user scrolls through the profile timeline.
 * [ ] User can view their direct messages (or send new ones)
 
 The following **additional** features are implemented:
@@ -60,6 +60,9 @@ The following **additional** features are implemented:
 
 
 ## Video Walkthrough
+
+With Follower/Following
+! [Video Walkthrough] (https://media.giphy.com/media/3o7aCPDB7sW8aUYrKg/giphy.gif)
 
 Here's a walkthrough of implemented user stories:
 

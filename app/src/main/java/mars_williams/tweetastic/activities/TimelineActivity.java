@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.parceler.Parcels;
@@ -30,7 +30,10 @@ import mars_williams.tweetastic.fragments.TweetsListFragment;
 import mars_williams.tweetastic.models.Tweet;
 
 
-public class TimelineActivity extends AppCompatActivity implements TweetsListFragment.TweetSelectedListener, ComposeTweetDialogFragment.OnTweetComposedListener {
+public class TimelineActivity extends AppCompatActivity
+        implements TweetsListFragment.TweetSelectedListener,
+        ComposeTweetDialogFragment.OnTweetComposedListener,
+        TweetsListFragment.LoadingProgressDialog {
 
     public static final String TWEET_POSITION = "tweet_position";
     public static final int REQUEST_CODE_COMPOSE = 20;
@@ -41,8 +44,10 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
     public static ViewPager vpPager;
 
     @BindView(R.id.sliding_tabs)
+
     TabLayout tabLayout;
-    View timelineView;
+    MenuItem miActionProgressItem;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +98,7 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -175,4 +180,28 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
             currentFragment.rvTweets.scrollToPosition(0);
         }
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        // Extract the action-view from the menu item
+        progressBar = (ProgressBar) miActionProgressItem.getActionView();
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void showProgressBar() {
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(true);
+        }
+    }
+
+    @Override
+    public void hideProgressBar() {
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(false);
+        }
+    }
+
 }

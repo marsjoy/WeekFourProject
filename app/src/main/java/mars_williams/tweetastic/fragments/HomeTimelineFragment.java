@@ -32,16 +32,19 @@ public class HomeTimelineFragment extends TweetsListFragment {
     }
 
     private void populateTimeline() {
+        showProgressBar();
         client.getHomeTimelinePage(0, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d(getString(R.string.twitter_client), response.toString());
+                hideProgressBar();
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 Log.d(getString(R.string.twitter_client), response.toString());
                 addItems(response);
+                hideProgressBar();
             }
 
             @Override
@@ -49,6 +52,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
                 Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.d(getString(R.string.twitter_client), responseString);
                 throwable.printStackTrace();
+                hideProgressBar();
             }
 
             @Override
@@ -56,6 +60,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
                 Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.d(getString(R.string.twitter_client), errorResponse.toString());
                 throwable.printStackTrace();
+                hideProgressBar();
             }
 
             @Override
@@ -63,17 +68,20 @@ public class HomeTimelineFragment extends TweetsListFragment {
                 Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.d(getString(R.string.twitter_client), errorResponse.toString());
                 throwable.printStackTrace();
+                hideProgressBar();
             }
         });
     }
 
     @Override
     public void fetchTimelineAsync(int page) {
+        showProgressBar();
         client.getHomeTimelinePage(page, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d(getString(R.string.twitter_client), response.toString());
                 swipeContainer.setRefreshing(false);
+                hideProgressBar();
             }
 
             @Override
@@ -81,6 +89,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
                 tweetAdapter.clear();
                 addItems(response);
                 swipeContainer.setRefreshing(false);
+                hideProgressBar();
             }
 
             @Override
@@ -89,6 +98,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
                 Log.d(getString(R.string.twitter_client), errorResponse.toString());
                 throwable.printStackTrace();
                 swipeContainer.setRefreshing(false);
+                hideProgressBar();
             }
 
             @Override
@@ -97,6 +107,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
                 Log.d(getString(R.string.twitter_client), errorResponse.toString());
                 throwable.printStackTrace();
                 swipeContainer.setRefreshing(false);
+                hideProgressBar();
             }
 
             @Override
@@ -111,16 +122,19 @@ public class HomeTimelineFragment extends TweetsListFragment {
 
     @Override
     public void fetchNextPage(long max_id) {
+        showProgressBar();
         client.getHomeTimelinePage(max_id, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d(getString(R.string.twitter_client), response.toString());
+                hideProgressBar();
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 Log.d(getString(R.string.twitter_client), response.toString());
                 addItems(response);
+                hideProgressBar();
             }
 
             @Override
@@ -128,6 +142,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
                 Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.d(getString(R.string.twitter_client), responseString);
                 throwable.printStackTrace();
+                hideProgressBar();
             }
 
             @Override
@@ -135,6 +150,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
                 Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.d(getString(R.string.twitter_client), errorResponse.toString());
                 throwable.printStackTrace();
+                hideProgressBar();
             }
 
             @Override
@@ -142,6 +158,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
                 Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.d(getString(R.string.twitter_client), errorResponse.toString());
                 throwable.printStackTrace();
+                hideProgressBar();
             }
         });
     }

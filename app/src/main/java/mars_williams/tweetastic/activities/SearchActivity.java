@@ -9,7 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.parceler.Parcels;
@@ -31,11 +33,16 @@ import static mars_williams.tweetastic.activities.TimelineActivity.vpPager;
  * Created by mars_williams on 10/16/17.
  */
 
-public class SearchActivity extends AppCompatActivity implements TweetsListFragment.TweetSelectedListener {
+public class SearchActivity extends AppCompatActivity implements
+        TweetsListFragment.TweetSelectedListener,
+        TweetsListFragment.LoadingProgressDialog {
 
     String searchQuery;
     SearchTweetsFragment searchFragment;
     TwitterClient client;
+    MenuItem miActionProgressItem;
+    MenuItem miHomeItem;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +80,39 @@ public class SearchActivity extends AppCompatActivity implements TweetsListFragm
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_search, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        miHomeItem = menu.findItem(R.id.miHome);
+        // Extract the action-view from the menu item
+        progressBar = (ProgressBar) miActionProgressItem.getActionView();
+        miHomeItem.isEnabled();
+        miHomeItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Intent i = new Intent(getBaseContext(), TimelineActivity.class);
+                startActivity(i);
+                return true;
+            }
+        });
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void showProgressBar() {
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(true);
+        }
+    }
+
+    @Override
+    public void hideProgressBar() {
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(false);
+        }
     }
 
     @Override

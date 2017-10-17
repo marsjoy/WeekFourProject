@@ -125,8 +125,23 @@ public class UsersListFragment extends Fragment implements UserAdapter.UserAdapt
         unbinder.unbind();
     }
 
+    public void showProgressBar() {
+        ((LoadingProgressDialog) getActivity()).showProgressBar();
+    }
+
+    public void hideProgressBar() {
+        ((LoadingProgressDialog) getActivity()).hideProgressBar();
+    }
+
     public interface UserSelectedListener {
         // Handle user selection
         void onUserSelected(User user, int position);
+    }
+
+    public interface LoadingProgressDialog {
+        // Show/hide progress dialog
+        void showProgressBar();
+
+        void hideProgressBar();
     }
 }

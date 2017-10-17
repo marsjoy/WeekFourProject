@@ -40,6 +40,7 @@ public class SearchTweetsFragment extends TweetsListFragment {
     }
 
     private void populateSearchResults() {
+        showProgressBar();
         String searchQuery = getArguments().getString("search_query");
         client.searchTweets(searchQuery, new JsonHttpResponseHandler() {
             @Override
@@ -50,12 +51,14 @@ public class SearchTweetsFragment extends TweetsListFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                hideProgressBar();
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 Log.e(getString(R.string.twitter_client), response.toString());
                 addItems(response);
+                hideProgressBar();
             }
 
             @Override
@@ -63,6 +66,7 @@ public class SearchTweetsFragment extends TweetsListFragment {
                 Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.e(getString(R.string.twitter_client), responseString);
                 throwable.printStackTrace();
+                hideProgressBar();
             }
 
             @Override
@@ -70,6 +74,7 @@ public class SearchTweetsFragment extends TweetsListFragment {
                 Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.e(getString(R.string.twitter_client), errorResponse.toString());
                 throwable.printStackTrace();
+                hideProgressBar();
             }
 
             @Override
@@ -77,6 +82,7 @@ public class SearchTweetsFragment extends TweetsListFragment {
                 Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.e(getString(R.string.twitter_client), errorResponse.toString());
                 throwable.printStackTrace();
+                hideProgressBar();
             }
         });
     }

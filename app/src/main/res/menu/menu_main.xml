@@ -6,14 +6,23 @@
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
         android:orderInCategory="5"
-        android:title="Search"
+        android:title="@string/search"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="always"></item>
+        app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/miProfile"
         android:icon="@drawable/ic_profile_image_menu"
         android:orderInCategory="6"
         android:title="@string/profile"
-        app:showAsAction="always"></item>
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/miActionProgress"
+        android:title="@string/loading"
+        android:visible="false"
+        app:showAsAction="ifRoom"
+        app:actionLayout="@layout/action_view_progress" >
+    </item>
 
 </menu>

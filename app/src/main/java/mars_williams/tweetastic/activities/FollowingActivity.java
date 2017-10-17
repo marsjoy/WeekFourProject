@@ -6,7 +6,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import butterknife.ButterKnife;
@@ -21,10 +24,15 @@ import mars_williams.tweetastic.networking.TwitterClient;
  * Created by mars_williams on 10/16/17.
  */
 
-public class FollowingActivity extends AppCompatActivity implements UsersListFragment.UserSelectedListener {
+public class FollowingActivity extends AppCompatActivity
+        implements UsersListFragment.UserSelectedListener,
+        UsersListFragment.LoadingProgressDialog {
 
     TwitterClient client;
     String screenName;
+    MenuItem miActionProgressItem;
+    MenuItem miHomeItem;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,5 +74,45 @@ public class FollowingActivity extends AppCompatActivity implements UsersListFra
         Intent i = new Intent(this, ProfileActivity.class);
         i.putExtra("screen_name", user.getScreenName());
         (this).startActivity(i);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu
+        getMenuInflater().inflate(R.menu.menu_following, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        miHomeItem = menu.findItem(R.id.miHome);
+        // Extract the action-view from the menu item
+        progressBar = (ProgressBar) miActionProgressItem.getActionView();
+        miHomeItem.isEnabled();
+        miHomeItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Intent i = new Intent(getBaseContext(), TimelineActivity.class);
+                startActivity(i);
+                return true;
+            }
+        });
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void showProgressBar() {
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(true);
+        }
+    }
+
+    @Override
+    public void hideProgressBar() {
+        if (miActionProgressItem != null) {
+            miActionProgressItem.setVisible(false);
+        }
     }
 }

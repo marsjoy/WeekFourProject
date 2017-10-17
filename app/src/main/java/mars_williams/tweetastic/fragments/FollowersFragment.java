@@ -40,6 +40,7 @@ public class FollowersFragment extends UsersListFragment {
     }
 
     private void populateFollowers() {
+        showProgressBar();
         String screenName = getArguments().getString("screen_name");
         client.getFollowers(screenName, new JsonHttpResponseHandler() {
             @Override
@@ -54,6 +55,7 @@ public class FollowersFragment extends UsersListFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                hideProgressBar();
             }
 
             @Override
@@ -65,6 +67,7 @@ public class FollowersFragment extends UsersListFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                hideProgressBar();
             }
 
             @Override
@@ -72,6 +75,7 @@ public class FollowersFragment extends UsersListFragment {
                 Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.d(getString(R.string.twitter_client), responseString);
                 throwable.printStackTrace();
+                hideProgressBar();
             }
 
             @Override
@@ -79,6 +83,7 @@ public class FollowersFragment extends UsersListFragment {
                 Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.d(getString(R.string.twitter_client), errorResponse.toString());
                 throwable.printStackTrace();
+                hideProgressBar();
             }
 
             @Override
@@ -86,11 +91,13 @@ public class FollowersFragment extends UsersListFragment {
                 Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.d(getString(R.string.twitter_client), errorResponse.toString());
                 throwable.printStackTrace();
+                hideProgressBar();
             }
         });
     }
 
     public void fetchTimelineAsync(String cursor) {
+        showProgressBar();
         String screenName = getArguments().getString("screen_name");
         client.getFollowersPage(cursor, screenName, new JsonHttpResponseHandler() {
             @Override
@@ -106,6 +113,7 @@ public class FollowersFragment extends UsersListFragment {
                     e.printStackTrace();
                 }
                 swipeContainer.setRefreshing(false);
+                hideProgressBar();
             }
 
             @Override
@@ -118,6 +126,7 @@ public class FollowersFragment extends UsersListFragment {
                     e.printStackTrace();
                 }
                 swipeContainer.setRefreshing(false);
+                hideProgressBar();
             }
 
             @Override
@@ -126,6 +135,7 @@ public class FollowersFragment extends UsersListFragment {
                 Log.d(getString(R.string.twitter_client), errorResponse.toString());
                 throwable.printStackTrace();
                 swipeContainer.setRefreshing(false);
+                hideProgressBar();
             }
 
             @Override
@@ -134,6 +144,7 @@ public class FollowersFragment extends UsersListFragment {
                 Log.d(getString(R.string.twitter_client), errorResponse.toString());
                 throwable.printStackTrace();
                 swipeContainer.setRefreshing(false);
+                hideProgressBar();
             }
 
             @Override
@@ -142,12 +153,14 @@ public class FollowersFragment extends UsersListFragment {
                 Log.d(getString(R.string.twitter_client), responseString);
                 throwable.printStackTrace();
                 swipeContainer.setRefreshing(false);
+                hideProgressBar();
             }
         });
     }
 
     @Override
     public void fetchNextPage(String cursor) {
+        showProgressBar();
         String screenName = getArguments().getString("screen_name");
         client.getFollowersPage(cursor, screenName, new JsonHttpResponseHandler() {
             @Override
@@ -162,6 +175,7 @@ public class FollowersFragment extends UsersListFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                hideProgressBar();
             }
 
             @Override
@@ -173,6 +187,7 @@ public class FollowersFragment extends UsersListFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                hideProgressBar();
             }
 
             @Override
@@ -187,6 +202,7 @@ public class FollowersFragment extends UsersListFragment {
                 Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.d(getString(R.string.twitter_client), errorResponse.toString());
                 throwable.printStackTrace();
+                hideProgressBar();
             }
 
             @Override
@@ -194,6 +210,7 @@ public class FollowersFragment extends UsersListFragment {
                 Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.d(getString(R.string.twitter_client), errorResponse.toString());
                 throwable.printStackTrace();
+                hideProgressBar();
             }
         });
     }
