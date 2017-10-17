@@ -21,6 +21,7 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import mars_williams.tweetastic.R;
 import mars_williams.tweetastic.TwitterApplication;
 import mars_williams.tweetastic.activities.ProfileActivity;
+import mars_williams.tweetastic.helpers.SpanHelper;
 import mars_williams.tweetastic.models.User;
 import mars_williams.tweetastic.networking.TwitterClient;
 
@@ -82,7 +83,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.tvUserName.setText(user.getName());
         holder.tvScreenName.setText(holder.tvScreenName.getContext()
                 .getString(R.string.formatted_user_screen_name, user.getScreenName()));
-        holder.tvTagline.setText(user.getTagLine());
+        holder.tvTagline.setText(SpanHelper.setSpans(user.getTagLine(), context));
 
         // Load the profile image
         Glide.with(context)

@@ -92,7 +92,6 @@ public class TwitterClient extends OAuthBaseClient {
         params.put("cursor", cursor);
         params.put("include_user_entities", false);
         params.put("skip_status", true);
-        System.out.print(apiUrl);
         client.get(apiUrl, params, handler);
     }
 
