@@ -25,6 +25,7 @@ public class User extends SugarRecord<User> {
     public String tagLine;
     public int followersCount;
     public int followingCount;
+    public long nextCursor;
 
     public User() {
     }
@@ -66,6 +67,24 @@ public class User extends SugarRecord<User> {
         return user;
     }
 
+    // Deserialize the JSON
+    public static ArrayList<User> fromJSONUsers(JSONArray json) throws JSONException {
+        return fromJSONArray(json.getJSONArray(0));
+    }
+
+    // Deserialize the JSON
+    public static long getNextCursor(JSONArray json) throws JSONException {
+        JSONArray users = json.getJSONArray(0);
+        for (int index = 0; index < users.length(); ++index) {
+            JSONObject user = users.getJSONObject(index);
+            Long nextCursor = user.getLong("next_cursor");
+            if (nextCursor != null) {
+                return nextCursor;
+            }
+        }
+        return 0;
+    }
+
     public static void getCurrentUser(final UserCallbackInterface handler) {
         TwitterClient client = TwitterApplication.getRestClient();
         client.verifyCredentials(new JsonHttpResponseHandler() {
@@ -98,7 +117,6 @@ public class User extends SugarRecord<User> {
 
     public static ArrayList<User> fromJSONArray(JSONArray array) {
         ArrayList<User> users = new ArrayList<>();
-
         for (int index = 0; index < array.length(); ++index) {
             try {
                 User user = User.fromJSON(array.getJSONObject(index));

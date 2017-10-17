@@ -48,6 +48,8 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
     TextView tvFollowers;
     @BindView(R.id.tvFollowing)
     TextView tvFollowing;
+    @BindView(R.id.tvScreenName)
+    TextView tvScreenName;
     @BindView(R.id.ivProfileImage)
     ImageView ivProfileImage;
 
@@ -56,6 +58,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
     UserTimelineFragment userTimelineFragment;
     TextView mTitleTextView;
     String screenName;
+    User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,35 +67,36 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
         ButterKnife.bind(this);
         client = TwitterApplication.getRestClient();
 
+        // Get intent extras
         screenName = getIntent().getStringExtra("screen_name");
         tweet = Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
-        if (tweet != null) {
-            screenName = tweet.getUser().getScreenName();
-        }
 
-        setupActionBar();
+        mUser = getUser();
+        populateUserHeadline(mUser);
+        setupActionBar(mUser);
 
         // Create the user fragment
-        userTimelineFragment = UserTimelineFragment.newInstance(screenName);
+        userTimelineFragment = UserTimelineFragment.newInstance(mUser.getScreenName());
         // Display the user timeline fragment inside the container (dynamically)
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         // Make transaction
         ft.replace(R.id.flContainer, userTimelineFragment);
         // Commit transaction
         ft.commit();
+    }
 
-        // If the tweet is valid, get another user's info
+    public User getUser() {
         if (tweet != null) {
-            populateUserHeadline(tweet.getUser());
+            return tweet.getUser();
             // If the tweet is invalid, get this user's info
         } else if (screenName != null) {
-            getUserInfo(screenName);
+            return getUserInfo(screenName);
         } else {
-            getCurrentUserInfo();
+            return getCurrentUserInfo();
         }
     }
 
-    public void setupActionBar() {
+    public void setupActionBar(User mUser) {
         // Set up the action bar
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
@@ -103,20 +107,20 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
 
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
+        mActionBar.setTitle(mUser.getName());
     }
 
-    public void populateUserHeadline(User user) {
+    public void populateUserHeadline(User mUser) {
         // Populate profile info views
-        tvName.setText(user.getName());
-        tvTagline.setText(user.getTagLine());
-        tvFollowers.setText(getString(R.string.followers_count, user.getFollowersCount()));
-        tvFollowing.setText(getString(R.string.following_count, user.getFollowingCount()));
-        mTitleTextView = (TextView) findViewById(R.id.actionbar_title);
-        mTitleTextView.setText(getString(R.string.user_profile, user.getName()));
+        tvName.setText(mUser.getName());
+        tvScreenName.setText(mUser.getScreenName());
+        tvTagline.setText(mUser.getTagLine());
+        tvFollowers.setText(getString(R.string.followers_count, mUser.getFollowersCount()));
+        tvFollowing.setText(getString(R.string.following_count, mUser.getFollowingCount()));
 
         // Load profile image with Glide
         Glide.with(this)
-                .load(user.getProfileImageUrl())
+                .load(mUser.getProfileImageUrl())
                 .bitmapTransform(new RoundedCornersTransformation(this, 25, 0))
                 .placeholder(R.drawable.ic_profile_image_placeholder)
                 .into(ivProfileImage);
@@ -126,7 +130,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
     public void getFollowers() {
         // Create an intent to the FollowersActivity
         Intent i = new Intent(this, FollowersActivity.class);
-        i.putExtra("screen_name", screenName);
+        i.putExtra("screen_name", mUser.getScreenName());
         startActivityForResult(i, REQUEST_CODE_DETAILS);
     }
 
@@ -134,19 +138,19 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
     public void getFollowing() {
         // Create an intent to the FollowingActivity
         Intent i = new Intent(this, FollowingActivity.class);
-        i.putExtra("screen_name", screenName);
+        i.putExtra("screen_name", mUser.getScreenName());
         startActivityForResult(i, REQUEST_CODE_DETAILS);
     }
 
-    public void getCurrentUserInfo() {
+    public User getCurrentUserInfo() {
         client.verifyCredentials(new JsonHttpResponseHandler() {
+            User mUser;
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     // Deserialize the user object
-                    User user = fromJSON(response);
+                    mUser = fromJSON(response);
                     // Populate the user headline
-                    populateUserHeadline(user);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Failed to get profile", Toast.LENGTH_SHORT).show();
@@ -171,21 +175,22 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
                 Toast.makeText(getApplicationContext(), "Failed to get profile", Toast.LENGTH_SHORT).show();
             }
         });
+        return mUser;
     }
 
-    public void getUserInfo(String screenName) {
+    public User getUserInfo(String screenName) {
         client.getUser(screenName, new JsonHttpResponseHandler() {
+            User mUser;
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 // Deserialize the user object
-                User user = null;
                 try {
-                    user = fromJSON(response.getJSONObject(0));
+                    User user = fromJSON(response.getJSONObject(0));
+                    // Populate the user headline
+                    mUser = user;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                // Populate the user headline
-                populateUserHeadline(user);
             }
 
             @Override
@@ -200,6 +205,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
                 Toast.makeText(getApplicationContext(), "Failed to get profile", Toast.LENGTH_SHORT).show();
             }
         });
+        return mUser;
     }
 
     @Override

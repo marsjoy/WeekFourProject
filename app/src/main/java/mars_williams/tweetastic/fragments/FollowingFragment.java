@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
@@ -22,6 +23,7 @@ import mars_williams.tweetastic.networking.TwitterClient;
 public class FollowingFragment extends UsersListFragment {
 
     TwitterClient client;
+    String nextCursor;
 
     public static FollowingFragment getInstance(String screenName) {
         FollowingFragment followingFragment = new FollowingFragment();
@@ -40,35 +42,157 @@ public class FollowingFragment extends UsersListFragment {
 
     private void populateFollowing() {
         String screenName = getArguments().getString("screen_name");
-        client.getFollowing(screenName, new JsonHttpResponseHandler() {
+        client.getFollowers(screenName, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d(getString(R.string.twitter_client), response.toString());
+                try {
+                    addItems(response.getJSONArray("users"));
+                    String cursor = response.getString("next_cursor");
+                    if (cursor != null) {
+                        userAdapter.setNextCursor(cursor);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 Log.d(getString(R.string.twitter_client), response.toString());
-                addItems(response);
+                try {
+                    addItems(response.getJSONArray(0));
+                    userAdapter.setNextCursor(response.getString(1));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(getContext(), getString(R.string.unable_to_fetch_users), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.d(getString(R.string.twitter_client), responseString);
                 throwable.printStackTrace();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Toast.makeText(getContext(), getString(R.string.unable_to_fetch_users), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.d(getString(R.string.twitter_client), errorResponse.toString());
                 throwable.printStackTrace();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                Toast.makeText(getContext(), getString(R.string.unable_to_fetch_users), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
+                Log.d(getString(R.string.twitter_client), errorResponse.toString());
+                throwable.printStackTrace();
+            }
+        });
+    }
+
+    public void fetchTimelineAsync(String cursor) {
+        String screenName = getArguments().getString("screen_name");
+        client.getFollowingPage(cursor, screenName, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d(getString(R.string.twitter_client), response.toString());
+                try {
+                    addItems(response.getJSONArray("users"));
+                    String cursor = response.getString("next_cursor");
+                    if (cursor != null) {
+                        userAdapter.setNextCursor(cursor);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                swipeContainer.setRefreshing(false);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                userAdapter.clear();
+                try {
+                    addItems(response.getJSONArray(0));
+                    userAdapter.setNextCursor(response.getString(1));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                swipeContainer.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
+                Log.d(getString(R.string.twitter_client), errorResponse.toString());
+                throwable.printStackTrace();
+                swipeContainer.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
+                Log.d(getString(R.string.twitter_client), errorResponse.toString());
+                throwable.printStackTrace();
+                swipeContainer.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
+                Log.d(getString(R.string.twitter_client), responseString);
+                throwable.printStackTrace();
+                swipeContainer.setRefreshing(false);
+            }
+        });
+    }
+
+    @Override
+    public void fetchNextPage(String cursor) {
+        String screenName = getArguments().getString("screen_name");
+        client.getFollowingPage(cursor, screenName, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d(getString(R.string.twitter_client), response.toString());
+                try {
+                    addItems(response.getJSONArray("users"));
+                    String cursor = response.getString("next_cursor");
+                    if (cursor != null) {
+                        userAdapter.setNextCursor(cursor);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.d(getString(R.string.twitter_client), response.toString());
+                try {
+                    addItems(response.getJSONArray(0));
+                    userAdapter.setNextCursor(response.getString(1));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
+                Log.d(getString(R.string.twitter_client), responseString);
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
+                Log.d(getString(R.string.twitter_client), errorResponse.toString());
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Toast.makeText(getContext(), getString(R.string.unable_to_fetch_tweets), Toast.LENGTH_SHORT).show();
                 Log.d(getString(R.string.twitter_client), errorResponse.toString());
                 throwable.printStackTrace();
             }

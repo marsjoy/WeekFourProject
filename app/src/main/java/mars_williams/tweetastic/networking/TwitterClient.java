@@ -85,10 +85,24 @@ public class TwitterClient extends OAuthBaseClient {
         client.get(apiUrl, params, handler);
     }
 
-    public void getFollowers(String screenName, AsyncHttpResponseHandler handler) {
+    public void getFollowersPage(String cursor, String screenName, AsyncHttpResponseHandler handler) {
         String apiUrl = getApiUrl("followers/list.json");
         RequestParams params = new RequestParams();
         params.put("screen_name", screenName);
+        params.put("cursor", cursor);
+        params.put("include_user_entities", false);
+        params.put("skip_status", true);
+        System.out.print(apiUrl);
+        client.get(apiUrl, params, handler);
+    }
+
+    public void getFollowingPage(String cursor, String screenName, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("friends/list.json");
+        RequestParams params = new RequestParams();
+        params.put("screen_name", screenName);
+        params.put("cursor", cursor);
+        params.put("include_user_entities", false);
+        params.put("skip_status", true);
         client.get(apiUrl, params, handler);
     }
 
@@ -96,6 +110,17 @@ public class TwitterClient extends OAuthBaseClient {
         String apiUrl = getApiUrl("friends/list.json");
         RequestParams params = new RequestParams();
         params.put("screen_name", screenName);
+        params.put("include_user_entities", false);
+        params.put("skip_status", true);
+        client.get(apiUrl, params, handler);
+    }
+
+    public void getFollowers(String screenName, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("followers/list.json");
+        RequestParams params = new RequestParams();
+        params.put("screen_name", screenName);
+        params.put("include_user_entities", false);
+        params.put("skip_status", true);
         client.get(apiUrl, params, handler);
     }
 

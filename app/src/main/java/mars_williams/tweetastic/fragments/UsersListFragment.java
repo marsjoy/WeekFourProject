@@ -76,8 +76,7 @@ public class UsersListFragment extends Fragment implements UserAdapter.UserAdapt
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                User lastUser = users.get(users.size() - 1);
-                fetchNextPage(lastUser.getTwitterUserId() - 1);
+                fetchNextPage(userAdapter.getNextCursor());
             }
         };
         rvUsers.addOnScrollListener(scrollListener);
@@ -89,7 +88,7 @@ public class UsersListFragment extends Fragment implements UserAdapter.UserAdapt
             @Override
             public void onRefresh() {
                 // Refresh the list here
-                fetchTimelineAsync(0);
+                fetchTimelineAsync("0");
             }
         });
 
@@ -108,11 +107,10 @@ public class UsersListFragment extends Fragment implements UserAdapter.UserAdapt
         userAdapter.addAll(usersCollection);
     }
 
-    public void fetchTimelineAsync(int page) {
+    public void fetchTimelineAsync(String cursor) {
     }
 
-    // Append the next page of data into the adapter
-    public void fetchNextPage(long max_id) {
+    public void fetchNextPage(String cursor) {
     }
 
     @Override

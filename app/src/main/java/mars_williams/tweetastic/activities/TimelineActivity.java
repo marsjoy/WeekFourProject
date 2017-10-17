@@ -42,6 +42,7 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
 
     @BindView(R.id.sliding_tabs)
     TabLayout tabLayout;
+    View timelineView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +119,7 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
         switch (item.getItemId()) {
             case R.id.miProfile:
                 // Launch the profile activity
-                Intent i = new Intent(this, ProfileActivity.class);
+                Intent i = new Intent(vpPager.getContext(), ProfileActivity.class);
                 startActivity(i);
                 return true;
             default:

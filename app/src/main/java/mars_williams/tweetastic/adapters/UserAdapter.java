@@ -1,13 +1,13 @@
 package mars_williams.tweetastic.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -16,9 +16,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import mars_williams.tweetastic.R;
 import mars_williams.tweetastic.TwitterApplication;
+import mars_williams.tweetastic.activities.ProfileActivity;
 import mars_williams.tweetastic.models.User;
 import mars_williams.tweetastic.networking.TwitterClient;
 
@@ -34,6 +36,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     TwitterClient client;
     LayoutInflater inflater;
     ViewHolder viewHolder;
+    String nextCursor;
     private UserAdapterListener mListener;
 
     // Pass in the Users array in the constructor
@@ -46,6 +49,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public UserAdapter(Context context, AdapterView.OnItemClickListener listener, List<User> users) {
         inflater = LayoutInflater.from(context);
         this.mUsers = users;
+    }
+
+    public String getNextCursor() {
+        return nextCursor;
+    }
+
+    public void setNextCursor(String cursor) {
+        nextCursor = cursor;
     }
 
     // For each row, inflate layout and cache references into ViewHolder
@@ -105,8 +116,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     // Create ViewHolder class
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.rlUserHeader)
-        RelativeLayout rlUserHeader;
         @BindView(R.id.ivProfileImage)
         ImageView ivProfileImage;
         @BindView(R.id.tvUserName)
@@ -121,6 +130,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             ButterKnife.bind(this, itemView);
             client = TwitterApplication.getRestClient();
             itemView.setOnClickListener(this);
+        }
+
+        @OnClick(R.id.ivProfileImage)
+        public void goToProfile() {
+            final int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                User user = mUsers.get(position);
+                Intent i = new Intent(context, ProfileActivity.class);
+                i.putExtra("screen_name", user.getScreenName());
+                (context).startActivity(i);
+            }
         }
 
         @Override
