@@ -61,8 +61,11 @@ The following **additional** features are implemented:
 
 ## Video Walkthrough
 
+With Progress Bar
+![Video Walkthrough](https://media.giphy.com/media/xT9IgNcKo0zNWisqEE/giphy.gif)
+
 With Follower/Following
-! [Video Walkthrough] (https://media.giphy.com/media/3o7aCPDB7sW8aUYrKg/giphy.gif)
+![Video Walkthrough](https://media.giphy.com/media/3o7aCPDB7sW8aUYrKg/giphy.gif)
 
 Here's a walkthrough of implemented user stories:
 
